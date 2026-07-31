@@ -16,7 +16,7 @@
 4. [Project Structure | រចនាសម្ព័ន្ធគម្រោង](#4-project-structure--រចនាសម្ព័ន្ធគម្រោង)
 5. [Main Application Class | ថ្នាក់កម្មវិធីចម្បង](#5-main-application-class--ថ្នាក់កម្មវិធីចម្បង)
 6. [REST Controllers | ការបង្កើត Controller](#6-rest-controllers--ការបង្កើត-controller)
-7. [Dependency Injection & Beans](#7. Dependency Injection & Beans | ការចាក់ Dependency)
+7. [Dependency Injection & Beans](#7-Dependency-Injection-&-Beans-|-ការចាក់-Dependency)
 8. [Configuration (application.yml)](#8-configuration--ការកំណត់រចនាសម្ព័ន្ធ)
 9. [Spring Data JPA — Entity & Repository](#9-spring-data-jpa--entity--repository)
 10. [Service Layer | ស្រទាប់សេវាកម្ម](#10-service-layer--ស្រទាប់សេវាកម្ម)
