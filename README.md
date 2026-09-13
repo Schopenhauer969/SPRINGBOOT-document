@@ -1,166 +1,249 @@
-# 🌱 Spring Boot Complete Guide | មគ្គុទ្ទេសក៍ពេញលេញ Spring Boot
-### From Beginner to Advanced | ពីកម្រិតដំបូងដល់កម្រិតខ្ពស់
+# 🚀 Spring Boot — Beginner to Advanced
 
-> **Language / ភាសា**: Explanations in Khmer 🇰🇭 + English 🇬🇧, all code and keywords in English.
-> ការពន្យល់ជាភាសាខ្មែរ និងអង់គ្លេស ខណៈកូដ និងពាក្យគន្លឹះសរសេរជាភាសាអង់គ្លេស។
+> A complete Spring Boot learning guide from **Beginner → Intermediate → Advanced**, with full Java code examples and explanations in **English 🇬🇧 + Khmer 🇰🇭**.
 
-**Stack used in this guide:** Java 17, Spring Boot 3.3.x, Maven, Spring Data JPA, H2/MySQL, Spring Security (JWT), JUnit 5, Docker.
-
----
-
-## 📑 Table of Contents | មាតិកា
-
-1. [Introduction | សេចក្តីផ្តើម](#1-introduction--សេចក្តីផ្តើម)
-2. [Prerequisites | គ្រឿងបរិក្ខារត្រូវការ](#2-prerequisites--គ្រឿងបរិក្ខារត្រូវការ)
-3. [Creating a Project | ការបង្កើតគម្រោង](#3-creating-a-project--ការបង្កើតគម្រោង)
-4. [Project Structure | រចនាសម្ព័ន្ធគម្រោង](#4-project-structure--រចនាសម្ព័ន្ធគម្រោង)
-5. [Main Application Class | ថ្នាក់កម្មវិធីចម្បង](#5-main-application-class--ថ្នាក់កម្មវិធីចម្បង)
-6. [REST Controllers | ការបង្កើត Controller](#6-rest-controllers--ការបង្កើត-controller)
-7. [Dependency Injection & Beans](#7-dependency-injection--beans--ការចាក់-Dependency)
-8. [Configuration (application.yml)](#8-configuration--ការកំណត់រចនាសម្ព័ន្ធ)
-9. [Spring Data JPA — Entity & Repository](#9-spring-data-jpa--entity--repository)
-10. [Service Layer | ស្រទាប់សេវាកម្ម](#10-service-layer--ស្រទាប់សេវាកម្ម)
-11. [DTO & Validation | ការត្រួតពិនិត្យទិន្នន័យ](#11-dto--validation--ការត្រួតពិនិត្យទិន្នន័យ)
-12. [Global Exception Handling](#12-global-exception-handling--ការគ្រប់គ្រងកំហុសសកល)
-13. [Full CRUD REST API Example](#13-full-crud-rest-api-example--ឧទាហរណ៍-crud-ពេញលេញ)
-14. [Spring Security + JWT (Advanced)](#14-spring-security--jwt-advanced--សុវត្ថិភាពកម្រិតខ្ពស់)
-15. [Testing with JUnit & MockMvc](#15-testing-with-junit--mockmvc--ការសាកល្បង)
-16. [Logging | កំណត់ហេតុ](#16-logging--កំណត់ហេតុ)
-17. [Profiles (dev/prod)](#17-profiles-devprod--ការកំណត់សម្រាប់បរិស្ថានផ្សេងៗ)
-18. [API Documentation with Swagger/OpenAPI](#18-api-documentation-with-swaggeropenapi)
-19. [Caching, Async & Scheduling (Advanced)](#19-caching-async--scheduling-advanced)
-20. [Actuator — Monitoring](#20-actuator--monitoring--ការត្រួតពិនិត្យ)
-21. [Dockerizing the App](#21-dockerizing-the-app--ការវេចខ្ចប់ជាមួយ-docker)
-22. [Deployment | ការដាក់ឱ្យប្រើប្រាស់ជាក់ស្តែង](#22-deployment--ការដាក់ឱ្យប្រើប្រាស់ជាក់ស្តែង)
-23. [Best Practices | ការអនុវត្តល្អបំផុត](#23-best-practices--ការអនុវត្តល្អបំផុត)
-24. [Resources | ធនធានបន្ថែម](#24-resources--ធនធានបន្ថែម)
+![Java](https://img.shields.io/badge/Java-17%2B-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.1-brightgreen)
+![Maven](https://img.shields.io/badge/Maven-3.6.3%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
 
-## 1. Introduction | សេចក្តីផ្តើម
+## 📚 Table of Contents
 
-**English:** Spring Boot is a Java framework that makes it easy to create stand-alone, production-grade Spring applications with minimal configuration. It comes with an embedded server (Tomcat by default), auto-configuration, and a huge ecosystem (Spring Data, Spring Security, Spring Cloud, etc.).
-
-**ខ្មែរ:** Spring Boot គឺជា framework មួយសម្រាប់ភាសា Java ដែលជួយឱ្យការសាងសង់កម្មវិធី Spring កាន់តែងាយស្រួល ដោយមិនចាំបាច់កំណត់រចនាសម្ព័ន្ធច្រើន។ វាមាន server ភ្ជាប់មកជាមួយស្រាប់ (ជាធម្មតា Tomcat) មានលក្ខណៈ auto-configuration និងមាន ecosystem ធំទូលាយដូចជា Spring Data, Spring Security, Spring Cloud ជាដើម។
-
-**Why use Spring Boot? | ហេតុអ្វីត្រូវប្រើ Spring Boot?**
-
-| Feature | English | ខ្មែរ |
-|---|---|---|
-| Auto-configuration | Automatically configures beans based on dependencies | កំណត់ bean ដោយស្វ័យប្រវត្តិទៅតាម dependency |
-| Embedded server | No need to install Tomcat separately | មិនចាំបាច់ដំឡើង Tomcat ដោយឡែក |
-| Starter dependencies | Pre-packaged dependency bundles | កញ្ចប់ dependency ដែលរៀបចំរួចជាស្រេច |
-| Production-ready | Health checks, metrics via Actuator | មាន health check និង metrics តាមរយៈ Actuator |
+* [1. What is Spring Boot?](#1-what-is-spring-boot)
+* [2. Why Spring Boot?](#2-why-spring-boot)
+* [3. Prerequisites](#3-prerequisites)
+* [4. Create Your First Project](#4-create-your-first-project)
+* [5. Project Structure](#5-project-structure)
+* [6. Hello World](#6-hello-world)
+* [7. Spring Boot Application](#7-spring-boot-application)
+* [8. REST API](#8-rest-api)
+* [9. HTTP Methods](#9-http-methods)
+* [10. Path Variable](#10-path-variable)
+* [11. Request Parameter](#11-request-parameter)
+* [12. Request Body](#12-request-body)
+* [13. DTO](#13-dto)
+* [14. Service Layer](#14-service-layer)
+* [15. Repository Layer](#15-repository-layer)
+* [16. Database with JPA](#16-database-with-jpa)
+* [17. MySQL](#17-mysql)
+* [18. CRUD API](#18-crud-api)
+* [19. Validation](#19-validation)
+* [20. Exception Handling](#20-exception-handling)
+* [21. Configuration](#21-configuration)
+* [22. Profiles](#22-profiles)
+* [23. Logging](#23-logging)
+* [24. Lombok](#24-lombok)
+* [25. Transactions](#25-transactions)
+* [26. Relationships](#26-relationships)
+* [27. Pagination and Sorting](#27-pagination-and-sorting)
+* [28. Spring Security](#28-spring-security)
+* [29. Password Hashing](#29-password-hashing)
+* [30. JWT Authentication](#30-jwt-authentication)
+* [31. Role-Based Authorization](#31-role-based-authorization)
+* [32. CORS](#32-cors)
+* [33. Testing](#33-testing)
+* [34. Integration Testing](#34-integration-testing)
+* [35. Actuator](#35-actuator)
+* [36. OpenAPI / Swagger](#36-openapi--swagger)
+* [37. RestClient](#37-restclient)
+* [38. WebClient](#38-webclient)
+* [39. Async Processing](#39-async-processing)
+* [40. Scheduling](#40-scheduling)
+* [41. Caching](#41-caching)
+* [42. Events](#42-events)
+* [43. File Upload](#43-file-upload)
+* [44. Docker](#44-docker)
+* [45. Docker Compose](#45-docker-compose)
+* [46. Production Configuration](#46-production-configuration)
+* [47. Layered Architecture](#47-layered-architecture)
+* [48. Clean Architecture](#48-clean-architecture)
+* [49. Microservices](#49-microservices)
+* [50. Production Checklist](#50-production-checklist)
+* [51. Recommended Learning Path](#51-recommended-learning-path)
 
 ---
 
-## 2. Prerequisites | គ្រឿងបរិក្ខារត្រូវការ
+# 1. What is Spring Boot?
 
-**English:** Before starting, install the following:
-- **JDK 17+** (Java Development Kit)
-- **Maven 3.8+** or **Gradle 8+**
-- **IDE**: IntelliJ IDEA, VS Code, or Eclipse
-- Basic knowledge of Java (OOP, annotations)
+## English
 
-**ខ្មែរ:** មុននឹងចាប់ផ្តើម សូមដំឡើងអ្វីៗខាងក្រោម៖
-- **JDK 17+**
-- **Maven 3.8+** ឬ **Gradle 8+**
-- **IDE**៖ IntelliJ IDEA, VS Code, ឬ Eclipse
-- ចំណេះដឹងមូលដ្ឋានអំពី Java (OOP, annotations)
+Spring Boot is a Java framework used to build:
 
-Check your installation | ពិនិត្យការដំឡើង:
+* REST APIs
+* Web applications
+* Microservices
+* Enterprise applications
+* Backend systems
+* Cloud applications
+
+Spring Boot simplifies Spring development by providing:
+
+* Auto-configuration
+* Embedded servers
+* Starter dependencies
+* External configuration
+* Production features
+* Testing support
+
+## ខ្មែរ
+
+Spring Boot គឺជា Framework របស់ Java សម្រាប់បង្កើត៖
+
+* REST API
+* Web Application
+* Microservices
+* Backend
+* Enterprise Application
+* Cloud Application
+
+Spring Boot ជួយកាត់បន្ថយ Configuration ដែលយើងត្រូវសរសេរដោយខ្លួនឯង។
+
+---
+
+# 2. Why Spring Boot?
+
+## English
+
+Without Spring Boot, configuring a Spring application can require a lot of manual configuration.
+
+Spring Boot provides sensible defaults.
+
+```text
+Java
+  ↓
+Spring Framework
+  ↓
+Spring Boot
+  ↓
+REST API
+  ↓
+Database
+  ↓
+Security
+  ↓
+Production
+```
+
+## ខ្មែរ
+
+Spring Framework មានសមត្ថភាពខ្លាំង ប៉ុន្តែ Spring Boot ធ្វើឱ្យការបង្កើត Application ងាយស្រួលជាងមុន។
+
+---
+
+# 3. Prerequisites
+
+You should know basic:
+
+* Java
+* OOP
+* Classes
+* Interfaces
+* Exceptions
+* Collections
+* Maven
+* HTTP
+* JSON
+* SQL
+
+Recommended:
+
+```text
+Java 17+
+Maven 3.6.3+
+Git
+IDE
+Postman
+MySQL
+Docker
+```
+
+Spring Boot 4.1.1 requires Java 17 or newer.
+
+Check Java:
 
 ```bash
 java -version
+```
+
+Check Maven:
+
+```bash
 mvn -version
 ```
 
 ---
 
-## 3. Creating a Project | ការបង្កើតគម្រោង
+# 4. Create Your First Project
 
-**English:** The easiest way is via [Spring Initializr](https://start.spring.io).
+The easiest way is Spring Initializr.
 
-**ខ្មែរ:** វិធីងាយស្រួលបំផុតគឺប្រើ [Spring Initializr](https://start.spring.io)។
+Open:
 
-Choose these settings | ជ្រើសរើសការកំណត់ដូចខាងក្រោម:
-
+```text
+https://start.spring.io
 ```
+
+Choose:
+
+```text
 Project: Maven
 Language: Java
-Spring Boot: 3.3.x
+Spring Boot: 4.1.1
 Packaging: Jar
 Java: 17
-Dependencies:
-  - Spring Web
-  - Spring Data JPA
-  - H2 Database
-  - Validation
-  - Lombok
 ```
 
-Or generate from the command line using `curl`:
+Add:
 
-```bash
-curl https://start.spring.io/starter.zip \
-  -d dependencies=web,data-jpa,h2,validation,lombok \
-  -d javaVersion=17 \
-  -d bootVersion=3.3.4 \
-  -d name=demo \
-  -o demo.zip
-unzip demo.zip -d demo
+```text
+Spring Web MVC
 ```
+
+Spring Boot's official documentation recommends Spring Initializr for quickly generating projects.
 
 ---
 
-## 4. Project Structure | រចនាសម្ព័ន្ធគម្រោង
+# 5. Project Structure
 
-**English:** A typical layered Spring Boot project structure looks like this:
+A clean beginner project:
 
-**ខ្មែរ:** រចនាសម្ព័ន្ធគម្រោង Spring Boot ធម្មតាមានទម្រង់ស្រទាប់ដូចខាងក្រោម៖
-
-```
-demo/
+```text
+springboot-demo/
+│
 ├── src/
 │   ├── main/
-│   │   ├── java/com/example/demo/
-│   │   │   ├── DemoApplication.java      # Main entry point
-│   │   │   ├── controller/               # REST controllers
-│   │   │   │   └── ProductController.java
-│   │   │   ├── service/                  # Business logic
-│   │   │   │   ├── ProductService.java
-│   │   │   │   └── impl/ProductServiceImpl.java
-│   │   │   ├── repository/               # Data access layer
-│   │   │   │   └── ProductRepository.java
-│   │   │   ├── model/ (entity)           # JPA entities
-│   │   │   │   └── Product.java
-│   │   │   ├── dto/                      # Data transfer objects
-│   │   │   │   ├── ProductRequest.java
-│   │   │   │   └── ProductResponse.java
-│   │   │   ├── exception/                # Custom exceptions
-│   │   │   │   ├── ResourceNotFoundException.java
-│   │   │   │   └── GlobalExceptionHandler.java
-│   │   │   └── config/                   # Configuration classes
-│   │   │       └── SecurityConfig.java
+│   │   ├── java/
+│   │   │   └── com/example/demo/
+│   │   │       ├── DemoApplication.java
+│   │   │       ├── controller/
+│   │   │       ├── service/
+│   │   │       ├── repository/
+│   │   │       ├── entity/
+│   │   │       ├── dto/
+│   │   │       ├── exception/
+│   │   │       └── config/
+│   │   │
 │   │   └── resources/
-│   │       ├── application.yml
-│   │       └── static/ , templates/
+│   │       ├── application.properties
+│   │       └── static/
+│   │
 │   └── test/
-│       └── java/com/example/demo/
-│           └── ProductControllerTest.java
+│
 ├── pom.xml
 └── README.md
 ```
 
-> 💡 **Tip / គន្លឹះ:** Group classes by feature/layer, not randomly. This keeps large projects maintainable. | ចាត់ថ្នាក់ class តាមមុខងារ/ស្រទាប់ មិនមែនដោយចៃដន្យ ដើម្បីឱ្យគម្រោងធំៗងាយថែទាំ។
+## ខ្មែរ
+
+ការបែងចែក Folder ជា Layer ជួយឱ្យ Project ងាយអាន និងងាយថែទាំ។
 
 ---
 
-## 5. Main Application Class | ថ្នាក់កម្មវិធីចម្បង
+# 6. Hello World
 
-**English:** Every Spring Boot app has one main class annotated with `@SpringBootApplication`, which combines `@Configuration`, `@EnableAutoConfiguration`, and `@ComponentScan`.
-
-**ខ្មែរ:** កម្មវិធី Spring Boot គ្រប់មួយមាន class ចម្បងមួយដែលមាន annotation `@SpringBootApplication` ដែលរួមបញ្ចូល `@Configuration`, `@EnableAutoConfiguration`, និង `@ComponentScan` ចូលគ្នា។
+## `DemoApplication.java`
 
 ```java
 package com.example.demo;
@@ -177,61 +260,309 @@ public class DemoApplication {
 }
 ```
 
-Run it with | ដំណើរការវាដោយ:
+## `HelloController.java`
+
+```java
+package com.example.demo.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+    @GetMapping("/")
+    public String hello() {
+        return "Hello, Spring Boot!";
+    }
+}
+```
+
+Run:
 
 ```bash
 mvn spring-boot:run
 ```
 
+Open:
+
+```text
+http://localhost:8080/
+```
+
+Response:
+
+```text
+Hello, Spring Boot!
+```
+
 ---
 
-## 6. REST Controllers | ការបង្កើត Controller
+# 7. Spring Boot Application
 
-**English:** Controllers handle incoming HTTP requests. Use `@RestController` (combines `@Controller` + `@ResponseBody`) so return values are serialized directly to JSON.
-
-**ខ្មែរ:** Controller ជាកន្លែងទទួល HTTP request។ ប្រើ `@RestController` (ដែលរួម `@Controller` និង `@ResponseBody`) ដើម្បីឱ្យតម្លៃត្រឡប់ត្រូវបានបំលែងទៅជា JSON ដោយផ្ទាល់។
+The main annotation:
 
 ```java
-package com.example.demo.controller;
+@SpringBootApplication
+```
 
-import org.springframework.web.bind.annotation.*;
+combines important Spring Boot configuration behavior.
 
-@RestController
-@RequestMapping("/api/hello")
-public class HelloController {
+```java
+@SpringBootApplication
+public class DemoApplication {
 
-    @GetMapping
-    public String sayHello() {
-        return "Hello, Spring Boot!";
-    }
-
-    @GetMapping("/{name}")
-    public String sayHelloTo(@PathVariable String name) {
-        return "Hello, " + name + "!";
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
     }
 }
 ```
 
-**Common annotations | Annotation ទូទៅ:**
+## ខ្មែរ
 
-| Annotation | Purpose (English) | គោលបំណង (ខ្មែរ) |
-|---|---|---|
-| `@GetMapping` | Handle GET requests | ដោះស្រាយ GET request |
-| `@PostMapping` | Handle POST requests | ដោះស្រាយ POST request |
-| `@PutMapping` | Handle PUT (full update) | ដោះស្រាយ PUT (កែទាំងស្រុង) |
-| `@PatchMapping` | Handle PATCH (partial update) | ដោះស្រាយ PATCH (កែផ្នែក) |
-| `@DeleteMapping` | Handle DELETE requests | ដោះស្រាយ DELETE request |
-| `@PathVariable` | Read value from URL path | អានតម្លៃពី URL path |
-| `@RequestParam` | Read query parameter | អានតម្លៃ query parameter |
-| `@RequestBody` | Bind JSON body to object | ចងទិន្នន័យ JSON ទៅជា object |
+`@SpringBootApplication` គឺជា Annotation សំខាន់សម្រាប់ចាប់ផ្តើម Spring Boot Application។
 
 ---
 
-## 7. Dependency Injection & Beans | ការចាក់ Dependency
+# 8. REST API
 
-**English:** Spring manages objects ("beans") for you and injects them where needed, instead of you calling `new` manually. This is called **Inversion of Control (IoC)**.
+A REST controller:
 
-**ខ្មែរ:** Spring គ្រប់គ្រង object (ហៅថា "bean") ជំនួសអោយអ្នក ហើយចាក់ (inject) វាទៅកន្លែងដែលត្រូវការ ដោយមិនចាំបាច់ហៅ `new` ដោយផ្ទាល់។ លក្ខណៈនេះហៅថា **Inversion of Control (IoC)**។
+```java
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    @GetMapping
+    public String getUsers() {
+        return "All users";
+    }
+}
+```
+
+Request:
+
+```http
+GET /api/users
+```
+
+Response:
+
+```text
+All users
+```
+
+---
+
+# 9. HTTP Methods
+
+The main HTTP methods are:
+
+| Method | Purpose        |
+| ------ | -------------- |
+| GET    | Read           |
+| POST   | Create         |
+| PUT    | Update         |
+| PATCH  | Partial update |
+| DELETE | Delete         |
+
+Example:
+
+```java
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+
+    @GetMapping
+    public String getAll() {
+        return "GET";
+    }
+
+    @PostMapping
+    public String create() {
+        return "POST";
+    }
+
+    @PutMapping("/{id}")
+    public String update(@PathVariable Long id) {
+        return "PUT " + id;
+    }
+
+    @PatchMapping("/{id}")
+    public String patch(@PathVariable Long id) {
+        return "PATCH " + id;
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) {
+        return "DELETE " + id;
+    }
+}
+```
+
+---
+
+# 10. Path Variable
+
+URL:
+
+```text
+/api/users/10
+```
+
+Code:
+
+```java
+@GetMapping("/{id}")
+public String getUser(@PathVariable Long id) {
+    return "User ID: " + id;
+}
+```
+
+Response:
+
+```text
+User ID: 10
+```
+
+## ខ្មែរ
+
+`@PathVariable` ប្រើសម្រាប់យកតម្លៃពី URL។
+
+---
+
+# 11. Request Parameter
+
+Request:
+
+```text
+/api/users?name=Heng
+```
+
+Code:
+
+```java
+@GetMapping
+public String getUser(
+        @RequestParam String name
+) {
+    return "Hello " + name;
+}
+```
+
+Response:
+
+```text
+Hello Heng
+```
+
+Optional parameter:
+
+```java
+@GetMapping
+public String search(
+        @RequestParam(defaultValue = "") String name
+) {
+    return name;
+}
+```
+
+---
+
+# 12. Request Body
+
+Create DTO:
+
+```java
+package com.example.demo.dto;
+
+public record UserRequest(
+        String name,
+        String email
+) {
+}
+```
+
+Controller:
+
+```java
+@PostMapping
+public UserRequest create(
+        @RequestBody UserRequest request
+) {
+    return request;
+}
+```
+
+JSON:
+
+```json
+{
+  "name": "Heng",
+  "email": "heng@example.com"
+}
+```
+
+---
+
+# 13. DTO
+
+DTO means:
+
+```text
+Data Transfer Object
+```
+
+Example:
+
+```java
+public record UserResponse(
+        Long id,
+        String name,
+        String email
+) {
+}
+```
+
+Request DTO:
+
+```java
+public record UserRequest(
+        String name,
+        String email
+) {
+}
+```
+
+## Why DTO?
+
+Do not expose database entities directly in every API.
+
+Better:
+
+```text
+Client
+  ↓
+Request DTO
+  ↓
+Controller
+  ↓
+Service
+  ↓
+Entity
+  ↓
+Repository
+  ↓
+Database
+```
+
+## ខ្មែរ
+
+DTO ជួយការពារ Entity និងកំណត់ថា API អាចទទួល/បញ្ជូន Data អ្វីខ្លះ។
+
+---
+
+# 14. Service Layer
 
 ```java
 package com.example.demo.service;
@@ -239,697 +570,1039 @@ package com.example.demo.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GreetingService {
-    public String greet(String name) {
-        return "Welcome, " + name;
+public class UserService {
+
+    public String getUser() {
+        return "User from service";
     }
 }
 ```
 
-**Constructor injection (recommended) | ការចាក់តាម Constructor (ណែនាំ):**
+Controller:
 
 ```java
-package com.example.demo.controller;
-
-import com.example.demo.service.GreetingService;
-import org.springframework.web.bind.annotation.*;
-
 @RestController
-public class GreetingController {
+@RequestMapping("/api/users")
+public class UserController {
 
-    private final GreetingService greetingService;
+    private final UserService userService;
 
-    // Constructor injection — no @Autowired needed since Spring 4.3+ with a single constructor
-    public GreetingController(GreetingService greetingService) {
-        this.greetingService = greetingService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping("/api/greet")
-    public String greet(@RequestParam String name) {
-        return greetingService.greet(name);
+    @GetMapping
+    public String getUser() {
+        return userService.getUser();
     }
 }
 ```
 
-> ⚠️ **Note / កំណត់សម្គាល់:** Prefer constructor injection over field injection (`@Autowired` on a field) — it's easier to test and makes dependencies explicit. | គួរប្រើ constructor injection ជាជាង field injection ព្រោះវាងាយសាកល្បង និងបញ្ជាក់ dependency ច្បាស់លាស់។
+## Dependency Injection
+
+Spring creates the `UserService` object and injects it into the controller.
+
+## ខ្មែរ
+
+Dependency Injection មានន័យថា Spring ជាអ្នកបង្កើត Object ហើយបញ្ចូល Object ទៅកន្លែងដែលត្រូវការ។
 
 ---
 
-## 8. Configuration | ការកំណត់រចនាសម្ព័ន្ធ
-
-**English:** Use `application.yml` (or `.properties`) to configure your app — server port, database, logging, etc.
-
-**ខ្មែរ:** ប្រើ `application.yml` (ឬ `.properties`) ដើម្បីកំណត់រចនាសម្ព័ន្ធកម្មវិធី ដូចជា port របស់ server មូលដ្ឋានទិន្នន័យ log ជាដើម។
-
-`src/main/resources/application.yml`:
-
-```yaml
-server:
-  port: 8080
-
-spring:
-  application:
-    name: demo
-
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: ""
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
-logging:
-  level:
-    root: INFO
-    com.example.demo: DEBUG
-```
-
-Reading custom properties with `@Value` or a typed config class:
+# 15. Repository Layer
 
 ```java
-package com.example.demo.config;
+package com.example.demo.repository;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-import lombok.Data;
+import com.example.demo.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Data
-@Component
-@ConfigurationProperties(prefix = "app")
-public class AppProperties {
-    private String name;
-    private String version;
+public interface UserRepository
+        extends JpaRepository<User, Long> {
 }
 ```
 
-```yaml
-app:
-  name: "Demo Service"
-  version: "1.0.0"
+You automatically get:
+
+```java
+findAll()
+findById()
+save()
+deleteById()
+count()
+existsById()
 ```
 
 ---
 
-## 9. Spring Data JPA — Entity & Repository
+# 16. Database with JPA
 
-**English:** JPA lets you map Java classes to database tables using annotations, and `JpaRepository` gives you CRUD methods for free — no SQL needed for basic operations.
+Add dependencies:
 
-**ខ្មែរ:** JPA អនុញ្ញាតឱ្យអ្នកភ្ជាប់ class Java ទៅតារាងក្នុងមូលដ្ឋានទិន្នន័យដោយប្រើ annotation ហើយ `JpaRepository` ផ្តល់ method CRUD ដោយស្វ័យប្រវត្តិ — មិនចាំបាច់សរសេរ SQL សម្រាប់ប្រតិបត្តិការមូលដ្ឋាន។
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+```
 
-**Entity class:**
+Entity:
 
 ```java
-package com.example.demo.model;
+package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
 
 @Entity
-@Table(name = "products")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Product {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String name;
 
-    @Column(precision = 10, scale = 2)
-    private BigDecimal price;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-    private Integer stock;
-}
-```
-
-**Repository interface:**
-
-```java
-package com.example.demo.repository;
-
-import com.example.demo.model.Product;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
-
-public interface ProductRepository extends JpaRepository<Product, Long> {
-
-    // Derived query — Spring auto-generates SQL from the method name
-    List<Product> findByNameContainingIgnoreCase(String name);
-
-    List<Product> findByStockGreaterThan(Integer stock);
-}
-```
-
-**Custom query with `@Query`:**
-
-```java
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-public interface ProductRepository extends JpaRepository<Product, Long> {
-
-    @Query("SELECT p FROM Product p WHERE p.price <= :maxPrice ORDER BY p.price ASC")
-    List<Product> findAffordableProducts(@Param("maxPrice") BigDecimal maxPrice);
-}
-```
-
----
-
-## 10. Service Layer | ស្រទាប់សេវាកម្ម
-
-**English:** The service layer contains business logic and sits between the controller and the repository. This separation keeps controllers thin.
-
-**ខ្មែរ:** ស្រទាប់សេវាកម្មផ្ទុកតក្កវិជ្ជាអាជីវកម្ម ហើយស្ថិតនៅចន្លោះ controller និង repository។ ការញែកនេះជួយឱ្យ controller មានលក្ខណៈស្រាល និងសាមញ្ញ។
-
-```java
-package com.example.demo.service;
-
-import com.example.demo.model.Product;
-import java.util.List;
-
-public interface ProductService {
-    Product createProduct(Product product);
-    Product getProductById(Long id);
-    List<Product> getAllProducts();
-    Product updateProduct(Long id, Product product);
-    void deleteProduct(Long id);
-}
-```
-
-```java
-package com.example.demo.service.impl;
-
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.Product;
-import com.example.demo.repository.ProductRepository;
-import com.example.demo.service.ProductService;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-@Service
-public class ProductServiceImpl implements ProductService {
-
-    private final ProductRepository productRepository;
-
-    public ProductServiceImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public User() {
     }
 
-    @Override
-    public Product createProduct(Product product) {
-        return productRepository.save(product);
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
-    @Override
-    public Product getProductById(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+    public Long getId() {
+        return id;
     }
 
-    @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public String getName() {
+        return name;
     }
 
-    @Override
-    @Transactional
-    public Product updateProduct(Long id, Product updated) {
-        Product existing = getProductById(id);
-        existing.setName(updated.getName());
-        existing.setPrice(updated.getPrice());
-        existing.setStock(updated.getStock());
-        return productRepository.save(existing);
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public void deleteProduct(Long id) {
-        Product existing = getProductById(id);
-        productRepository.delete(existing);
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
 ```
 
 ---
 
-## 11. DTO & Validation | ការត្រួតពិនិត្យទិន្នន័យ
+# 17. MySQL
 
-**English:** Never expose your entity directly in the API. Use **DTOs (Data Transfer Objects)** to control what data goes in/out, and `jakarta.validation` annotations to validate input.
+Add MySQL driver:
 
-**ខ្មែរ:** កុំបញ្ចេញ entity ដោយផ្ទាល់តាម API។ ប្រើ **DTO (Data Transfer Object)** ដើម្បីគ្រប់គ្រងទិន្នន័យចូល/ចេញ ហើយប្រើ annotation នៃ `jakarta.validation` ដើម្បីត្រួតពិនិត្យទិន្នន័យបញ្ចូល។
-
-```java
-package com.example.demo.dto;
-
-import jakarta.validation.constraints.*;
-import lombok.Data;
-import java.math.BigDecimal;
-
-@Data
-public class ProductRequest {
-
-    @NotBlank(message = "Name is required")
-    @Size(max = 100, message = "Name must be at most 100 characters")
-    private String name;
-
-    @NotNull(message = "Price is required")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0")
-    private BigDecimal price;
-
-    @NotNull(message = "Stock is required")
-    @Min(value = 0, message = "Stock cannot be negative")
-    private Integer stock;
-}
+```xml
+<dependency>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <scope>runtime</scope>
+</dependency>
 ```
 
+`application.properties`:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/springboot_db
+spring.datasource.username=root
+spring.datasource.password=password
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+```
+
+Create database:
+
+```sql
+CREATE DATABASE springboot_db;
+```
+
+## Warning
+
+Do not use:
+
+```properties
+spring.jpa.hibernate.ddl-auto=create
+```
+
+in production unless you explicitly understand its destructive behavior.
+
+Recommended production approach:
+
+```text
+Flyway
+```
+
+or:
+
+```text
+Liquibase
+```
+
+---
+
+# 18. CRUD API
+
+## Entity
+
 ```java
-package com.example.demo.dto;
+@Entity
+@Table(name = "users")
+public class User {
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import java.math.BigDecimal;
-
-@Data
-@AllArgsConstructor
-public class ProductResponse {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
-    private BigDecimal price;
-    private Integer stock;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    public User() {
+    }
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
 ```
 
-Trigger validation in the controller with `@Valid`:
+## Repository
+
+```java
+public interface UserRepository
+        extends JpaRepository<User, Long> {
+}
+```
+
+## Service
+
+```java
+@Service
+public class UserService {
+
+    private final UserRepository repository;
+
+    public UserService(UserRepository repository) {
+        this.repository = repository;
+    }
+
+    public List<User> findAll() {
+        return repository.findAll();
+    }
+
+    public User findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+    }
+
+    public User create(User user) {
+        return repository.save(user);
+    }
+
+    public User update(Long id, User request) {
+
+        User user = findById(id);
+
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+
+        return repository.save(user);
+    }
+
+    public void delete(Long id) {
+        User user = findById(id);
+        repository.delete(user);
+    }
+}
+```
+
+## Controller
+
+```java
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    private final UserService service;
+
+    public UserController(UserService service) {
+        this.service = service;
+    }
+
+    @GetMapping
+    public List<User> findAll() {
+        return service.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public User findById(@PathVariable Long id) {
+        return service.findById(id);
+    }
+
+    @PostMapping
+    public User create(@RequestBody User user) {
+        return service.create(user);
+    }
+
+    @PutMapping("/{id}")
+    public User update(
+            @PathVariable Long id,
+            @RequestBody User user
+    ) {
+        return service.update(id, user);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(
+            @PathVariable Long id
+    ) {
+        service.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
+}
+```
+
+---
+
+# 19. Validation
+
+Add:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+```
+
+DTO:
+
+```java
+package com.example.demo.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record UserRequest(
+
+        @NotBlank(message = "Name is required")
+        @Size(min = 2, max = 100)
+        String name,
+
+        @NotBlank(message = "Email is required")
+        @Email(message = "Invalid email")
+        String email
+
+) {
+}
+```
+
+Controller:
 
 ```java
 @PostMapping
-public ResponseEntity<ProductResponse> create(@Valid @RequestBody ProductRequest request) {
-    // ...
+public User create(
+        @Valid @RequestBody UserRequest request
+) {
+    return service.create(request);
 }
 ```
 
+## ខ្មែរ
+
+Validation គឺសម្រាប់ពិនិត្យថា User បញ្ចូល Data ត្រឹមត្រូវឬអត់។
+
 ---
 
-## 12. Global Exception Handling | ការគ្រប់គ្រងកំហុសសកល
+# 20. Exception Handling
 
-**English:** Use `@RestControllerAdvice` to catch exceptions from any controller in one place and return clean, consistent error responses.
-
-**ខ្មែរ:** ប្រើ `@RestControllerAdvice` ដើម្បីចាប់កំហុសពី controller ណាមួយនៅកន្លែងតែមួយ ហើយត្រឡប់ error response ដែលច្បាស់លាស់ និងស៊ីចង្វាក់គ្នា។
+Custom exception:
 
 ```java
 package com.example.demo.exception;
 
-public class ResourceNotFoundException extends RuntimeException {
-    public ResourceNotFoundException(String message) {
-        super(message);
+public class UserNotFoundException
+        extends RuntimeException {
+
+    public UserNotFoundException(Long id) {
+        super("User not found: " + id);
     }
 }
 ```
+
+Global handler:
 
 ```java
 package com.example.demo.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleNotFound(ResourceNotFoundException ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.NOT_FOUND.value());
-        body.put("message", ex.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage())
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, Object> handleUserNotFound(
+            UserNotFoundException exception
+    ) {
+        return Map.of(
+                "timestamp", LocalDateTime.now(),
+                "status", 404,
+                "error", "Not Found",
+                "message", exception.getMessage()
         );
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        body.put("message", "Something went wrong");
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 ```
 
----
-
-## 13. Full CRUD REST API Example | ឧទាហរណ៍ CRUD ពេញលេញ
-
-**English:** Putting it all together — a complete `ProductController` with full CRUD.
-
-**ខ្មែរ:** ដាក់រួមគ្នាទាំងអស់ — `ProductController` ពេញលេញជាមួយ CRUD គ្រប់មុខងារ។
+Now:
 
 ```java
-package com.example.demo.controller;
-
-import com.example.demo.dto.ProductRequest;
-import com.example.demo.dto.ProductResponse;
-import com.example.demo.model.Product;
-import com.example.demo.service.ProductService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-@RestController
-@RequestMapping("/api/products")
-public class ProductController {
-
-    private final ProductService productService;
-
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
-
-    // CREATE
-    @PostMapping
-    public ResponseEntity<ProductResponse> create(@Valid @RequestBody ProductRequest request) {
-        Product product = new Product(null, request.getName(), request.getPrice(), request.getStock());
-        Product saved = productService.createProduct(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(saved));
-    }
-
-    // READ ALL
-    @GetMapping
-    public ResponseEntity<List<ProductResponse>> getAll() {
-        List<ProductResponse> list = productService.getAllProducts()
-                .stream().map(this::toResponse).collect(Collectors.toList());
-        return ResponseEntity.ok(list);
-    }
-
-    // READ ONE
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> getOne(@PathVariable Long id) {
-        return ResponseEntity.ok(toResponse(productService.getProductById(id)));
-    }
-
-    // UPDATE
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> update(@PathVariable Long id,
-                                                    @Valid @RequestBody ProductRequest request) {
-        Product product = new Product(null, request.getName(), request.getPrice(), request.getStock());
-        Product updated = productService.updateProduct(id, product);
-        return ResponseEntity.ok(toResponse(updated));
-    }
-
-    // DELETE
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    private ProductResponse toResponse(Product p) {
-        return new ProductResponse(p.getId(), p.getName(), p.getPrice(), p.getStock());
-    }
-}
+throw new UserNotFoundException(id);
 ```
 
-**Testing with curl | សាកល្បងជាមួយ curl:**
+returns:
 
-```bash
-# Create
-curl -X POST http://localhost:8080/api/products \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Laptop","price":999.99,"stock":10}'
-
-# Get all
-curl http://localhost:8080/api/products
-
-# Get one
-curl http://localhost:8080/api/products/1
-
-# Update
-curl -X PUT http://localhost:8080/api/products/1 \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Laptop Pro","price":1299.99,"stock":5}'
-
-# Delete
-curl -X DELETE http://localhost:8080/api/products/1
+```json
+{
+  "timestamp": "2026-09-13T20:00:00",
+  "status": 404,
+  "error": "Not Found",
+  "message": "User not found: 100"
+}
 ```
 
 ---
 
-## 14. Spring Security + JWT (Advanced) | សុវត្ថិភាពកម្រិតខ្ពស់
+# 21. Configuration
 
-**English:** For stateless authentication, Spring Security combined with JWT (JSON Web Token) is the standard approach in REST APIs.
+`application.properties`:
 
-**ខ្មែរ:** សម្រាប់ការផ្ទៀងផ្ទាត់ភាពត្រឹមត្រូវបែប stateless ការប្រើ Spring Security ជាមួយ JWT (JSON Web Token) គឺជាវិធីស្តង់ដារសម្រាប់ REST API។
+```properties
+server.port=8080
 
-**Dependencies (pom.xml):**
+spring.application.name=my-api
+
+app.name=My Application
+app.version=1.0.0
+```
+
+Read property:
+
+```java
+@Component
+public class AppConfig {
+
+    @Value("${app.name}")
+    private String appName;
+
+    public String getAppName() {
+        return appName;
+    }
+}
+```
+
+Better for groups of settings:
+
+```java
+@ConfigurationProperties(prefix = "app")
+public record AppProperties(
+        String name,
+        String version
+) {
+}
+```
+
+---
+
+# 22. Profiles
+
+Create:
+
+```text
+application.properties
+application-dev.properties
+application-prod.properties
+```
+
+Development:
+
+```properties
+spring.profiles.active=dev
+```
+
+`application-dev.properties`:
+
+```properties
+server.port=8080
+spring.jpa.show-sql=true
+```
+
+`application-prod.properties`:
+
+```properties
+server.port=8080
+spring.jpa.show-sql=false
+```
+
+Run production profile:
+
+```bash
+java -jar app.jar --spring.profiles.active=prod
+```
+
+---
+
+# 23. Logging
+
+Use SLF4J:
+
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Service
+public class UserService {
+
+    private static final Logger log =
+            LoggerFactory.getLogger(UserService.class);
+
+    public void execute() {
+        log.info("Executing user service");
+        log.warn("This is a warning");
+        log.error("Something went wrong");
+    }
+}
+```
+
+Never log:
+
+```text
+password
+JWT token
+credit card
+secret key
+private credentials
+```
+
+---
+
+# 24. Lombok
+
+Add:
+
+```xml
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+</dependency>
+```
+
+Example:
+
+```java
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    private String email;
+}
+```
+
+Lombok reduces boilerplate.
+
+For educational projects, manually writing constructors/getters/setters can make Java fundamentals easier to understand.
+
+---
+
+# 25. Transactions
+
+Use:
+
+```java
+@Transactional
+```
+
+Example:
+
+```java
+@Service
+public class OrderService {
+
+    private final OrderRepository orderRepository;
+    private final PaymentRepository paymentRepository;
+
+    public OrderService(
+            OrderRepository orderRepository,
+            PaymentRepository paymentRepository
+    ) {
+        this.orderRepository = orderRepository;
+        this.paymentRepository = paymentRepository;
+    }
+
+    @Transactional
+    public void createOrder() {
+
+        Order order = new Order();
+        orderRepository.save(order);
+
+        Payment payment = new Payment();
+        paymentRepository.save(payment);
+    }
+}
+```
+
+If an exception occurs, the transaction can roll back according to Spring transaction semantics.
+
+## ខ្មែរ
+
+Transaction មានន័យថា Operations ជាច្រើនត្រូវបានគ្រប់គ្រងជាក្រុម។
+
+```text
+Operation A
+Operation B
+Operation C
+
+All success → COMMIT
+
+One fails → ROLLBACK
+```
+
+---
+
+# 26. Relationships
+
+## One-to-Many
+
+```java
+@Entity
+public class Department {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees = new ArrayList<>();
+}
+```
+
+Employee:
+
+```java
+@Entity
+public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+}
+```
+
+Relationship:
+
+```text
+Department
+    |
+    | 1
+    |
+    | *
+ Employee
+```
+
+Other relationships:
+
+```text
+@OneToOne
+@OneToMany
+@ManyToOne
+@ManyToMany
+```
+
+---
+
+# 27. Pagination and Sorting
+
+Repository:
+
+```java
+public interface UserRepository
+        extends JpaRepository<User, Long> {
+}
+```
+
+Controller:
+
+```java
+@GetMapping
+public Page<User> getUsers(
+        @PageableDefault(size = 10)
+        Pageable pageable
+) {
+    return repository.findAll(pageable);
+}
+```
+
+Request:
+
+```text
+GET /api/users?page=0&size=10&sort=name,asc
+```
+
+Response contains:
+
+```json
+{
+  "content": [],
+  "totalElements": 100,
+  "totalPages": 10,
+  "size": 10,
+  "number": 0
+}
+```
+
+---
+
+# 28. Spring Security
+
+Add:
 
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-security</artifactId>
 </dependency>
-<dependency>
-    <groupId>io.jsonwebtoken</groupId>
-    <artifactId>jjwt-api</artifactId>
-    <version>0.12.6</version>
-</dependency>
-<dependency>
-    <groupId>io.jsonwebtoken</groupId>
-    <artifactId>jjwt-impl</artifactId>
-    <version>0.12.6</version>
-    <scope>runtime</scope>
-</dependency>
-<dependency>
-    <groupId>io.jsonwebtoken</groupId>
-    <artifactId>jjwt-jackson</artifactId>
-    <version>0.12.6</version>
-    <scope>runtime</scope>
-</dependency>
 ```
 
-**JWT utility class:**
+Spring Security secures web applications by default when it is on the classpath.
+
+Basic configuration:
 
 ```java
-package com.example.demo.security;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
-
-import javax.crypto.SecretKey;
-import java.util.Date;
-
-@Component
-public class JwtUtil {
-
-    private final SecretKey key = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
-    private final long expirationMs = 86_400_000; // 24 hours
-
-    public String generateToken(String username) {
-        return Jwts.builder()
-                .subject(username)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expirationMs))
-                .signWith(key)
-                .compact();
-    }
-
-    public String extractUsername(String token) {
-        return Jwts.parser().verifyWith(key).build()
-                .parseSignedClaims(token).getPayload().getSubject();
-    }
-
-    public boolean isTokenValid(String token) {
-        try {
-            Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-}
-```
-
-**Security configuration:**
-
-```java
-package com.example.demo.config;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthFilter jwtAuthFilter;
-
-    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
-        this.jwtAuthFilter = jwtAuthFilter;
-    }
-
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    SecurityFilterChain securityFilterChain(
+            HttpSecurity http
+    ) throws Exception {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/public/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
             )
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
 }
 ```
 
-> 📌 **Note / កំណត់សម្គាល់:** `JwtAuthFilter` (a `OncePerRequestFilter`) validates the token on each request and sets the `SecurityContext`. This is intentionally left as an exercise — the pattern above gives you the full skeleton to extend. | `JwtAuthFilter` ត្រួតពិនិត្យ token រាល់ request ហើយកំណត់ `SecurityContext`។ ខ្ញុំទុកឱ្យអ្នកបន្ថែមខ្លួនឯង ដោយផ្អែកលើគំរូខាងលើ។
+Public endpoint:
+
+```java
+@GetMapping("/public/hello")
+public String hello() {
+    return "Public";
+}
+```
+
+Protected endpoint:
+
+```java
+@GetMapping("/private/hello")
+public String privateHello() {
+    return "Private";
+}
+```
 
 ---
 
-## 15. Testing with JUnit & MockMvc | ការសាកល្បង
+# 29. Password Hashing
 
-**English:** Spring Boot includes `spring-boot-starter-test` (JUnit 5, Mockito, AssertJ, MockMvc) out of the box.
+Never store:
 
-**ខ្មែរ:** Spring Boot មាន `spring-boot-starter-test` (JUnit 5, Mockito, AssertJ, MockMvc) ភ្ជាប់មកជាមួយស្រាប់។
+```text
+password123
+```
 
-**Unit test (Service layer, with Mockito):**
+as plain text.
+
+Use BCrypt:
 
 ```java
-package com.example.demo.service;
+@Bean
+PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+}
+```
 
-import com.example.demo.model.Product;
-import com.example.demo.repository.ProductRepository;
-import com.example.demo.service.impl.ProductServiceImpl;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+Encode:
 
-import java.math.BigDecimal;
-import java.util.Optional;
+```java
+String encoded =
+        passwordEncoder.encode("password123");
+```
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+Verify:
 
-@ExtendWith(MockitoExtension.class)
-class ProductServiceImplTest {
+```java
+boolean valid =
+        passwordEncoder.matches(
+                "password123",
+                encoded
+        );
+```
 
-    @Mock
-    private ProductRepository productRepository;
+---
 
-    @InjectMocks
-    private ProductServiceImpl productService;
+# 30. JWT Authentication
 
-    @Test
-    void shouldReturnProductWhenFound() {
-        Product product = new Product(1L, "Laptop", BigDecimal.valueOf(999.99), 10);
-        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+For JWT resource-server APIs, add:
 
-        Product result = productService.getProductById(1L);
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+</dependency>
+```
 
-        assertThat(result.getName()).isEqualTo("Laptop");
+Spring Security supports JWT and opaque bearer tokens for OAuth 2.0 Resource Server applications.
+
+Configuration:
+
+```yaml
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://your-auth-server.example.com
+```
+
+Security:
+
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    SecurityFilterChain securityFilterChain(
+            HttpSecurity http
+    ) throws Exception {
+
+        http
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/public/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+            )
+            .oauth2ResourceServer(
+                oauth2 -> oauth2.jwt(Customizer.withDefaults())
+            );
+
+        return http.build();
     }
 }
 ```
 
-**Integration test (Controller, with MockMvc):**
+Request:
+
+```http
+GET /api/users
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+> Important: Spring Security Resource Server validates bearer tokens; your authorization server is responsible for issuing tokens. Spring Security does not itself provide a general endpoint for minting JWT access tokens.
+
+---
+
+# 31. Role-Based Authorization
+
+Enable method security:
 
 ```java
-package com.example.demo.controller;
+@Configuration
+@EnableMethodSecurity
+public class SecurityConfig {
+}
+```
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.example.demo.dto.ProductRequest;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+Controller:
 
-import java.math.BigDecimal;
+```java
+@PreAuthorize("hasRole('ADMIN')")
+@DeleteMapping("/{id}")
+public void delete(
+        @PathVariable Long id
+) {
+    service.delete(id);
+}
+```
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+Another:
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class ProductControllerTest {
+```java
+@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+@GetMapping
+public List<User> users() {
+    return service.findAll();
+}
+```
 
-    @Autowired
-    private MockMvc mockMvc;
+Concept:
 
-    @Autowired
-    private ObjectMapper objectMapper;
+```text
+USER
+ ├── READ
+ └── UPDATE
 
-    @Test
-    void shouldCreateProduct() throws Exception {
-        ProductRequest request = new ProductRequest();
-        request.setName("Mouse");
-        request.setPrice(BigDecimal.valueOf(19.99));
-        request.setStock(50);
+ADMIN
+ ├── READ
+ ├── UPDATE
+ └── DELETE
+```
 
-        mockMvc.perform(post("/api/products")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Mouse"));
+---
+
+# 32. CORS
+
+Example:
+
+```java
+@Configuration
+public class CorsConfig {
+
+    @Bean
+    WebMvcConfigurer corsConfigurer() {
+
+        return new WebMvcConfigurer() {
+
+            @Override
+            public void addCorsMappings(
+                    CorsRegistry registry
+            ) {
+
+                registry.addMapping("/api/**")
+                        .allowedOrigins(
+                                "http://localhost:3000"
+                        )
+                        .allowedMethods(
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "PATCH",
+                                "DELETE"
+                        );
+            }
+        };
     }
 }
 ```
 
-Run tests | ដំណើរការតេស្ត:
+Do not blindly use:
+
+```java
+.allowedOrigins("*")
+```
+
+for sensitive production APIs.
+
+---
+
+# 33. Testing
+
+Spring Boot provides testing support through its test starter.
+
+Add:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
+```
+
+Unit test:
+
+```java
+class CalculatorTest {
+
+    @Test
+    void shouldAddNumbers() {
+
+        int result = 10 + 20;
+
+        assertEquals(30, result);
+    }
+}
+```
+
+Run:
 
 ```bash
 mvn test
@@ -937,181 +1610,27 @@ mvn test
 
 ---
 
-## 16. Logging | កំណត់ហេតុ
+# 34. Integration Testing
 
-**English:** Spring Boot uses SLF4J with Logback by default. Use Lombok's `@Slf4j` for quick access to a logger.
-
-**ខ្មែរ:** Spring Boot ប្រើ SLF4J ជាមួយ Logback ជាលំនាំដើម។ ប្រើ `@Slf4j` របស់ Lombok ដើម្បីទទួលបាន logger ភ្លាមៗ។
+Example:
 
 ```java
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+@SpringBootTest
+class DemoApplicationTests {
 
-@Slf4j
-@Service
-public class ProductServiceImpl {
-
-    public void doSomething() {
-        log.info("Processing started");
-        log.warn("Low stock warning for product {}", 42);
-        log.error("Failed to process product", new RuntimeException("DB error"));
+    @Test
+    void contextLoads() {
     }
 }
 ```
+
+This verifies that the Spring application context can start.
 
 ---
 
-## 17. Profiles (dev/prod) | ការកំណត់សម្រាប់បរិស្ថានផ្សេងៗ
+# 35. Actuator
 
-**English:** Use Spring Profiles to have different configurations for development, testing, and production.
-
-**ខ្មែរ:** ប្រើ Spring Profiles ដើម្បីមានការកំណត់ខុសៗគ្នាសម្រាប់ dev, test, និង production។
-
-`application-dev.yml`:
-```yaml
-spring:
-  datasource:
-    url: jdbc:h2:mem:devdb
-logging:
-  level:
-    root: DEBUG
-```
-
-`application-prod.yml`:
-```yaml
-spring:
-  datasource:
-    url: jdbc:mysql://prod-db:3306/mydb
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
-logging:
-  level:
-    root: WARN
-```
-
-Activate a profile | ធ្វើឱ្យ profile ដំណើរការ:
-
-```bash
-java -jar demo.jar --spring.profiles.active=prod
-```
-
-Or in code:
-
-```java
-@Service
-@Profile("dev")
-public class MockPaymentService implements PaymentService { /* ... */ }
-```
-
----
-
-## 18. API Documentation with Swagger/OpenAPI
-
-**English:** Add `springdoc-openapi` to auto-generate interactive API docs.
-
-**ខ្មែរ:** បន្ថែម `springdoc-openapi` ដើម្បីបង្កើត API documentation ដោយស្វ័យប្រវត្តិ។
-
-```xml
-<dependency>
-    <groupId>org.springdoc</groupId>
-    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    <version>2.6.0</version>
-</dependency>
-```
-
-**English:** After adding this and running the app, visit `http://localhost:8080/swagger-ui.html` to see an interactive UI for all your endpoints.
-
-**ខ្មែរ:** បន្ទាប់ពីបន្ថែម ហើយដំណើរការកម្មវិធី សូមចូល `http://localhost:8080/swagger-ui.html` ដើម្បីមើល UI អន្តរកម្មសម្រាប់ endpoint ទាំងអស់។
-
-```java
-@Operation(summary = "Get product by ID", description = "Returns a single product")
-@GetMapping("/{id}")
-public ResponseEntity<ProductResponse> getOne(@PathVariable Long id) {
-    return ResponseEntity.ok(toResponse(productService.getProductById(id)));
-}
-```
-
----
-
-## 19. Caching, Async & Scheduling (Advanced)
-
-**English:** These features boost performance and support background processing.
-
-**ខ្មែរ:** លក្ខណៈទាំងនេះជួយបង្កើនប្រសិទ្ធភាព និងគាំទ្រដំណើរការផ្ទៃខាងក្រោយ។
-
-**Caching:**
-
-```java
-// Enable in main class or a @Configuration class
-@EnableCaching
-@SpringBootApplication
-public class DemoApplication { /* ... */ }
-```
-
-```java
-@Service
-public class ProductServiceImpl {
-
-    @Cacheable(value = "products", key = "#id")
-    public Product getProductById(Long id) {
-        // Expensive DB call — result is cached after first call
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found"));
-    }
-
-    @CacheEvict(value = "products", key = "#id")
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
-    }
-}
-```
-
-**Async processing:**
-
-```java
-@EnableAsync
-@SpringBootApplication
-public class DemoApplication { /* ... */ }
-```
-
-```java
-@Service
-public class EmailService {
-
-    @Async
-    public void sendWelcomeEmail(String to) {
-        // Runs in a separate thread, doesn't block the caller
-        log.info("Sending email to {}", to);
-    }
-}
-```
-
-**Scheduling:**
-
-```java
-@EnableScheduling
-@SpringBootApplication
-public class DemoApplication { /* ... */ }
-```
-
-```java
-@Component
-public class ReportScheduler {
-
-    @Scheduled(cron = "0 0 1 * * ?") // every day at 1 AM
-    public void generateDailyReport() {
-        log.info("Generating daily report...");
-    }
-}
-```
-
----
-
-## 20. Actuator — Monitoring | ការត្រួតពិនិត្យ
-
-**English:** Spring Boot Actuator exposes production-ready endpoints for health checks, metrics, and app info.
-
-**ខ្មែរ:** Spring Boot Actuator បញ្ចេញ endpoint ដែលរួចរាល់សម្រាប់ production ដូចជា health check, metrics, និងព័ត៌មានកម្មវិធី។
+Add:
 
 ```xml
 <dependency>
@@ -1120,125 +1639,2036 @@ public class ReportScheduler {
 </dependency>
 ```
 
-```yaml
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info, metrics
+Configuration:
+
+```properties
+management.endpoints.web.exposure.include=health,info,metrics
 ```
 
-```bash
-curl http://localhost:8080/actuator/health
-curl http://localhost:8080/actuator/metrics
+Health endpoint:
+
+```text
+GET /actuator/health
+```
+
+Example:
+
+```json
+{
+  "status": "UP"
+}
+```
+
+Useful endpoints include:
+
+```text
+/actuator/health
+/actuator/info
+/actuator/metrics
+```
+
+Do not expose sensitive actuator endpoints publicly without appropriate security.
+
+---
+
+# 36. OpenAPI / Swagger
+
+A common approach is `springdoc-openapi`.
+
+Maven dependency:
+
+```xml
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.8.13</version>
+</dependency>
+```
+
+Example controller:
+
+```java
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    @Operation(
+            summary = "Get all users",
+            description = "Returns all users"
+    )
+    @GetMapping
+    public List<User> getUsers() {
+        return service.findAll();
+    }
+}
+```
+
+Typical Swagger UI URL:
+
+```text
+http://localhost:8080/swagger-ui.html
+```
+
+> Check the library's compatibility matrix before upgrading versions independently of Spring Boot.
+
+---
+
+# 37. RestClient
+
+For calling another HTTP API:
+
+```java
+@Configuration
+public class HttpConfig {
+
+    @Bean
+    RestClient restClient() {
+        return RestClient.builder()
+                .baseUrl("https://api.example.com")
+                .build();
+    }
+}
+```
+
+Service:
+
+```java
+@Service
+public class ExternalService {
+
+    private final RestClient restClient;
+
+    public ExternalService(RestClient restClient) {
+        this.restClient = restClient;
+    }
+
+    public String getData() {
+
+        return restClient.get()
+                .uri("/users")
+                .retrieve()
+                .body(String.class);
+    }
+}
 ```
 
 ---
 
-## 21. Dockerizing the App | ការវេចខ្ចប់ជាមួយ Docker
+# 38. WebClient
 
-**English:** Package your app in a Docker container for consistent deployment anywhere.
+For reactive/non-blocking HTTP clients:
 
-**ខ្មែរ:** វេចខ្ចប់កម្មវិធីរបស់អ្នកក្នុង Docker container ដើម្បីឱ្យការដាក់ដំណើរការស៊ីចង្វាក់គ្នានៅគ្រប់ទីកន្លែង។
+```java
+@Configuration
+public class WebClientConfig {
 
-`Dockerfile`:
+    @Bean
+    WebClient webClient() {
+        return WebClient.builder()
+                .baseUrl("https://api.example.com")
+                .build();
+    }
+}
+```
+
+Use:
+
+```java
+@Service
+public class ExternalService {
+
+    private final WebClient webClient;
+
+    public ExternalService(WebClient webClient) {
+        this.webClient = webClient;
+    }
+
+    public Mono<String> getData() {
+
+        return webClient.get()
+                .uri("/users")
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+}
+```
+
+---
+
+# 39. Async Processing
+
+Enable async:
+
+```java
+@Configuration
+@EnableAsync
+public class AsyncConfig {
+}
+```
+
+Service:
+
+```java
+@Service
+public class EmailService {
+
+    @Async
+    public void sendEmail() {
+
+        System.out.println(
+                "Sending email..."
+        );
+    }
+}
+```
+
+Controller:
+
+```java
+@PostMapping("/send")
+public String send() {
+
+    emailService.sendEmail();
+
+    return "Email processing started";
+}
+```
+
+For production systems, consider dedicated queues such as:
+
+```text
+Kafka
+RabbitMQ
+AWS SQS
+```
+
+---
+
+# 40. Scheduling
+
+Enable:
+
+```java
+@Configuration
+@EnableScheduling
+public class SchedulingConfig {
+}
+```
+
+Scheduled job:
+
+```java
+@Component
+public class ReportJob {
+
+    @Scheduled(fixedRate = 60000)
+    public void run() {
+
+        System.out.println(
+                "Running report job..."
+        );
+    }
+}
+```
+
+This runs approximately every:
+
+```text
+60 seconds
+```
+
+---
+
+# 41. Caching
+
+Add cache support:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-cache</artifactId>
+</dependency>
+```
+
+Enable:
+
+```java
+@Configuration
+@EnableCaching
+public class CacheConfig {
+}
+```
+
+Cache result:
+
+```java
+@Cacheable("users")
+public User findById(Long id) {
+
+    return repository.findById(id)
+            .orElseThrow();
+}
+```
+
+Clear cache:
+
+```java
+@CacheEvict(
+        value = "users",
+        key = "#id"
+)
+public void delete(Long id) {
+
+    repository.deleteById(id);
+}
+```
+
+For distributed production caching:
+
+```text
+Redis
+```
+
+is a common choice.
+
+---
+
+# 42. Events
+
+Create event:
+
+```java
+public record UserCreatedEvent(
+        Long userId
+) {
+}
+```
+
+Publish:
+
+```java
+@Service
+public class UserService {
+
+    private final ApplicationEventPublisher publisher;
+
+    public UserService(
+            ApplicationEventPublisher publisher
+    ) {
+        this.publisher = publisher;
+    }
+
+    public void createUser(User user) {
+
+        // Save user...
+
+        publisher.publishEvent(
+                new UserCreatedEvent(user.getId())
+        );
+    }
+}
+```
+
+Listener:
+
+```java
+@Component
+public class UserEventListener {
+
+    @EventListener
+    public void handle(
+            UserCreatedEvent event
+    ) {
+
+        System.out.println(
+                "User created: " + event.userId()
+        );
+    }
+}
+```
+
+---
+
+# 43. File Upload
+
+Controller:
+
+```java
+@RestController
+@RequestMapping("/api/files")
+public class FileController {
+
+    @PostMapping
+    public String upload(
+            @RequestParam("file")
+            MultipartFile file
+    ) throws IOException {
+
+        String filename =
+                file.getOriginalFilename();
+
+        Path path = Paths.get(
+                "uploads",
+                filename
+        );
+
+        Files.createDirectories(
+                path.getParent()
+        );
+
+        Files.write(
+                path,
+                file.getBytes()
+        );
+
+        return filename;
+    }
+}
+```
+
+HTML:
+
+```html
+<form
+    method="post"
+    enctype="multipart/form-data"
+    action="/api/files"
+>
+    <input type="file" name="file">
+
+    <button type="submit">
+        Upload
+    </button>
+</form>
+```
+
+Production considerations:
+
+```text
+File size limit
+File type validation
+Virus scanning
+Unique filenames
+Object storage
+Access control
+```
+
+---
+
+# 44. Docker
+
+Create `Dockerfile`:
 
 ```dockerfile
-# Build stage
-FROM maven:3.9-eclipse-temurin-17 AS build
-WORKDIR /app
-COPY pom.xml .
-RUN mvn dependency:go-offline
-COPY src ./src
-RUN mvn clean package -DskipTests
+FROM eclipse-temurin:17-jre
 
-# Run stage
-FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
+
+COPY target/app.jar app.jar
+
 EXPOSE 8080
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
-`docker-compose.yml`:
+Build:
+
+```bash
+mvn clean package
+```
+
+Build image:
+
+```bash
+docker build -t springboot-app .
+```
+
+Run:
+
+```bash
+docker run -p 8080:8080 springboot-app
+```
+
+---
+
+# 45. Docker Compose
+
+`compose.yml`:
 
 ```yaml
-version: "3.8"
 services:
+
+  mysql:
+    image: mysql:8.4
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: springboot_db
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
   app:
     build: .
+    container_name: springboot-app
+    depends_on:
+      - mysql
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - DB_USER=root
-      - DB_PASSWORD=secret
-    depends_on:
-      - db
-  db:
-    image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: mydb
-    ports:
-      - "3306:3306"
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/springboot_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+
+volumes:
+  mysql_data:
 ```
 
-Build & run | ស្ថាបនា និងដំណើរការ:
+Run:
 
 ```bash
-docker build -t demo-app .
-docker compose up
+docker compose up --build
+```
+
+Stop:
+
+```bash
+docker compose down
 ```
 
 ---
 
-## 22. Deployment | ការដាក់ឱ្យប្រើប្រាស់ជាក់ស្តែង
+# 46. Production Configuration
 
-**English:** Build a production JAR and run it, or deploy the Docker image to a cloud provider (AWS, Render, Railway, etc.).
+Never hard-code secrets:
 
-**ខ្មែរ:** ស្ថាបនា JAR សម្រាប់ production ហើយដំណើរការវា ឬដាក់ Docker image ទៅកាន់ cloud provider (AWS, Render, Railway ។ល។)។
+```properties
+spring.datasource.password=MySecretPassword
+```
+
+Instead use environment variables:
+
+```properties
+spring.datasource.password=${DB_PASSWORD}
+```
+
+Run:
+
+```bash
+DB_PASSWORD=secret mvn spring-boot:run
+```
+
+Windows PowerShell:
+
+```powershell
+$env:DB_PASSWORD="secret"
+mvn spring-boot:run
+```
+
+Use:
+
+```text
+Environment Variables
+Secret Manager
+Vault
+Cloud Secret Manager
+Kubernetes Secrets
+```
+
+for production secrets.
+
+---
+
+# 47. Layered Architecture
+
+Recommended:
+
+```text
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
+Database
+```
+
+Example:
+
+```text
+src/main/java/com/example/app/
+
+├── controller/
+│   └── UserController.java
+│
+├── service/
+│   └── UserService.java
+│
+├── repository/
+│   └── UserRepository.java
+│
+├── entity/
+│   └── User.java
+│
+├── dto/
+│   ├── UserRequest.java
+│   └── UserResponse.java
+│
+├── exception/
+│   ├── UserNotFoundException.java
+│   └── GlobalExceptionHandler.java
+│
+└── config/
+    └── SecurityConfig.java
+```
+
+---
+
+# 48. Clean Architecture
+
+For larger applications:
+
+```text
+presentation
+      ↓
+application
+      ↓
+domain
+      ↓
+infrastructure
+```
+
+Example:
+
+```text
+src/main/java/com/example/app/
+
+├── domain/
+│   ├── model/
+│   └── repository/
+│
+├── application/
+│   ├── service/
+│   └── usecase/
+│
+├── infrastructure/
+│   ├── persistence/
+│   ├── security/
+│   └── external/
+│
+└── presentation/
+    ├── controller/
+    └── dto/
+```
+
+## ខ្មែរ
+
+Clean Architecture មានគោលបំណងបំបែក Business Logic ចេញពី Database, Framework និង External API។
+
+---
+
+# 49. Microservices
+
+Spring Boot can be used to build microservices.
+
+Example:
+
+```text
+                    API Gateway
+                         |
+          +--------------+--------------+
+          |              |              |
+          ↓              ↓              ↓
+      User Service   Order Service   Payment Service
+          |              |              |
+          ↓              ↓              ↓
+       User DB        Order DB       Payment DB
+```
+
+Common technologies:
+
+```text
+Spring Boot
+Spring Cloud
+Spring Security
+Kafka
+RabbitMQ
+Redis
+Docker
+Kubernetes
+```
+
+A microservice should have a clear responsibility.
+
+Bad:
+
+```text
+One giant service doing everything
+```
+
+Better:
+
+```text
+User Service
+Order Service
+Payment Service
+Notification Service
+```
+
+---
+
+# 50. Production Checklist
+
+Before deploying a Spring Boot application:
+
+## Security
+
+* [ ] HTTPS enabled
+* [ ] Passwords hashed
+* [ ] JWT/OAuth2 configured correctly
+* [ ] CORS restricted
+* [ ] Secrets not committed
+* [ ] SQL injection protected
+* [ ] Input validation enabled
+* [ ] Actuator secured
+* [ ] Authentication implemented
+* [ ] Authorization implemented
+
+## Database
+
+* [ ] Database indexes reviewed
+* [ ] Transactions configured
+* [ ] Connection pool configured
+* [ ] Migrations configured
+* [ ] Backups configured
+* [ ] Slow queries monitored
+
+## API
+
+* [ ] DTOs used
+* [ ] Global exception handler
+* [ ] Validation
+* [ ] Pagination
+* [ ] API documentation
+* [ ] Correct HTTP status codes
+
+## Performance
+
+* [ ] Database queries optimized
+* [ ] Caching where appropriate
+* [ ] Pagination
+* [ ] Connection pool tuned
+* [ ] Async processing where appropriate
+
+## Operations
+
+* [ ] Health checks
+* [ ] Metrics
+* [ ] Logs
+* [ ] Monitoring
+* [ ] Alerting
+* [ ] Docker image
+* [ ] CI/CD
+
+---
+
+# 51. Recommended Learning Path
+
+## 🟢 Beginner
+
+Learn in this order:
+
+```text
+1. Java
+2. Maven
+3. Spring Boot
+4. Dependency Injection
+5. REST API
+6. Controller
+7. Service
+8. Repository
+9. DTO
+10. HTTP
+```
+
+---
+
+## 🟡 Intermediate
+
+Then:
+
+```text
+11. JPA
+12. Hibernate
+13. MySQL/PostgreSQL
+14. CRUD
+15. Validation
+16. Exception Handling
+17. Transactions
+18. Relationships
+19. Pagination
+20. Testing
+```
+
+---
+
+## 🔴 Advanced
+
+Then:
+
+```text
+21. Spring Security
+22. JWT
+23. OAuth2
+24. Caching
+25. Redis
+26. Kafka
+27. RabbitMQ
+28. Async
+29. Scheduling
+30. Docker
+31. Kubernetes
+32. CI/CD
+33. Observability
+34. Microservices
+35. Clean Architecture
+36. System Design
+```
+
+---
+
+# 🧠 Complete Spring Boot Request Flow
+
+A professional REST API commonly looks like:
+
+```text
+Client
+  |
+  | HTTP Request
+  ↓
+Security Filter
+  |
+  ↓
+Controller
+  |
+  ↓
+DTO Validation
+  |
+  ↓
+Service
+  |
+  ↓
+Repository
+  |
+  ↓
+JPA / Hibernate
+  |
+  ↓
+Database
+  |
+  ↓
+Repository
+  |
+  ↓
+Service
+  |
+  ↓
+Response DTO
+  |
+  ↓
+Controller
+  |
+  | HTTP Response
+  ↓
+Client
+```
+
+---
+
+# 📦 Complete Example Project
+
+A recommended final structure:
+
+```text
+springboot-api/
+│
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/example/app/
+│   │   │       │
+│   │   │       ├── Application.java
+│   │   │       │
+│   │   │       ├── controller/
+│   │   │       │   └── UserController.java
+│   │   │       │
+│   │   │       ├── service/
+│   │   │       │   └── UserService.java
+│   │   │       │
+│   │   │       ├── repository/
+│   │   │       │   └── UserRepository.java
+│   │   │       │
+│   │   │       ├── entity/
+│   │   │       │   └── User.java
+│   │   │       │
+│   │   │       ├── dto/
+│   │   │       │   ├── UserRequest.java
+│   │   │       │   └── UserResponse.java
+│   │   │       │
+│   │   │       ├── exception/
+│   │   │       │   ├── UserNotFoundException.java
+│   │   │       │   └── GlobalExceptionHandler.java
+│   │   │       │
+│   │   │       └── config/
+│   │   │           └── SecurityConfig.java
+│   │   │
+│   │   └── resources/
+│   │       ├── application.yml
+│   │       └── application-prod.yml
+│   │
+│   └── test/
+│       └── java/
+│
+├── Dockerfile
+├── compose.yml
+├── pom.xml
+└── README.md
+```
+
+---
+
+# 📄 Complete `pom.xml`
+
+For a basic REST + JPA + Validation + MySQL + Security application:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://maven.apache.org/POM/4.0.0
+        https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.1</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.example</groupId>
+
+    <artifactId>springboot-api</artifactId>
+
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>springboot-api</name>
+
+    <description>
+        Spring Boot REST API
+    </description>
+
+    <properties>
+
+        <java.version>17</java.version>
+
+    </properties>
+
+    <dependencies>
+
+        <!-- Web MVC / REST -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+
+        <!-- JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- MySQL -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <plugins>
+
+            <plugin>
+                <groupId>
+                    org.springframework.boot
+                </groupId>
+
+                <artifactId>
+                    spring-boot-maven-plugin
+                </artifactId>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+</project>
+```
+
+Spring Boot's current starter documentation lists `spring-boot-starter-webmvc` as the MVC/Tomcat starter and identifies the older `spring-boot-starter-web` as deprecated in favor of it for the current generation.
+
+---
+
+# 📄 Complete `application.yml`
+
+```yaml
+spring:
+
+  application:
+    name: springboot-api
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/springboot_db
+    username: root
+    password: ${DB_PASSWORD:password}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: false
+
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+
+  port: 8080
+
+management:
+
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - metrics
+```
+
+---
+
+# 📄 Complete Main Application
+
+```java
+package com.example.app;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(
+                Application.class,
+                args
+        );
+    }
+}
+```
+
+---
+
+# 📄 Complete Entity
+
+```java
+package com.example.app.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
+    private Long id;
+
+    @Column(
+            nullable = false,
+            length = 100
+    )
+    private String name;
+
+    @Column(
+            nullable = false,
+            unique = true,
+            length = 255
+    )
+    private String email;
+
+    public User() {
+    }
+
+    public User(
+            String name,
+            String email
+    ) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+}
+```
+
+---
+
+# 📄 Complete Repository
+
+```java
+package com.example.app.repository;
+
+import com.example.app.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface UserRepository
+        extends JpaRepository<User, Long> {
+
+    Optional<User> findByEmail(String email);
+}
+```
+
+---
+
+# 📄 Complete Request DTO
+
+```java
+package com.example.app.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record UserRequest(
+
+        @NotBlank(
+                message = "Name is required"
+        )
+        String name,
+
+        @NotBlank(
+                message = "Email is required"
+        )
+        @Email(
+                message = "Email must be valid"
+        )
+        String email
+
+) {
+}
+```
+
+---
+
+# 📄 Complete Response DTO
+
+```java
+package com.example.app.dto;
+
+public record UserResponse(
+
+        Long id,
+
+        String name,
+
+        String email
+
+) {
+}
+```
+
+---
+
+# 📄 Complete Service
+
+```java
+package com.example.app.service;
+
+import com.example.app.dto.UserRequest;
+import com.example.app.dto.UserResponse;
+import com.example.app.entity.User;
+import com.example.app.exception.UserNotFoundException;
+import com.example.app.repository.UserRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class UserService {
+
+    private final UserRepository repository;
+
+    public UserService(
+            UserRepository repository
+    ) {
+        this.repository = repository;
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserResponse> findAll() {
+
+        return repository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse findById(Long id) {
+
+        User user = repository.findById(id)
+                .orElseThrow(
+                        () -> new UserNotFoundException(id)
+                );
+
+        return toResponse(user);
+    }
+
+    @Transactional
+    public UserResponse create(
+            UserRequest request
+    ) {
+
+        User user = new User(
+                request.name(),
+                request.email()
+        );
+
+        User saved =
+                repository.save(user);
+
+        return toResponse(saved);
+    }
+
+    @Transactional
+    public UserResponse update(
+            Long id,
+            UserRequest request
+    ) {
+
+        User user = repository.findById(id)
+                .orElseThrow(
+                        () -> new UserNotFoundException(id)
+                );
+
+        user.setName(request.name());
+        user.setEmail(request.email());
+
+        return toResponse(user);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+
+        User user = repository.findById(id)
+                .orElseThrow(
+                        () -> new UserNotFoundException(id)
+                );
+
+        repository.delete(user);
+    }
+
+    private UserResponse toResponse(
+            User user
+    ) {
+
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail()
+        );
+    }
+}
+```
+
+---
+
+# 📄 Complete Exception
+
+```java
+package com.example.app.exception;
+
+public class UserNotFoundException
+        extends RuntimeException {
+
+    public UserNotFoundException(Long id) {
+
+        super(
+                "User not found with id: " + id
+        );
+    }
+}
+```
+
+---
+
+# 📄 Complete Global Exception Handler
+
+```java
+package com.example.app.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(
+            UserNotFoundException.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, Object> handleUserNotFound(
+            UserNotFoundException exception
+    ) {
+
+        return Map.of(
+                "timestamp",
+                LocalDateTime.now(),
+
+                "status",
+                404,
+
+                "error",
+                "Not Found",
+
+                "message",
+                exception.getMessage()
+        );
+    }
+}
+```
+
+---
+
+# 📄 Complete Controller
+
+```java
+package com.example.app.controller;
+
+import com.example.app.dto.UserRequest;
+import com.example.app.dto.UserResponse;
+import com.example.app.service.UserService;
+
+import jakarta.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+    private final UserService service;
+
+    public UserController(
+            UserService service
+    ) {
+        this.service = service;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponse>>
+    findAll() {
+
+        return ResponseEntity.ok(
+                service.findAll()
+        );
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse>
+    findById(
+            @PathVariable Long id
+    ) {
+
+        return ResponseEntity.ok(
+                service.findById(id)
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<UserResponse>
+    create(
+            @Valid
+            @RequestBody
+            UserRequest request
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                        service.create(request)
+                );
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse>
+    update(
+            @PathVariable Long id,
+
+            @Valid
+            @RequestBody
+            UserRequest request
+    ) {
+
+        return ResponseEntity.ok(
+                service.update(
+                        id,
+                        request
+                )
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void>
+    delete(
+            @PathVariable Long id
+    ) {
+
+        service.delete(id);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+}
+```
+
+---
+
+# 🧪 API Examples
+
+## Create User
+
+```http
+POST /api/users
+Content-Type: application/json
+```
+
+```json
+{
+  "name": "Heng",
+  "email": "heng@example.com"
+}
+```
+
+Response:
+
+```json
+{
+  "id": 1,
+  "name": "Heng",
+  "email": "heng@example.com"
+}
+```
+
+---
+
+## Get Users
+
+```http
+GET /api/users
+```
+
+---
+
+## Get One User
+
+```http
+GET /api/users/1
+```
+
+---
+
+## Update User
+
+```http
+PUT /api/users/1
+Content-Type: application/json
+```
+
+```json
+{
+  "name": "Heng Updated",
+  "email": "new@example.com"
+}
+```
+
+---
+
+## Delete User
+
+```http
+DELETE /api/users/1
+```
+
+Response:
+
+```http
+204 No Content
+```
+
+---
+
+# 🛠 Useful Maven Commands
+
+Run application:
+
+```bash
+mvn spring-boot:run
+```
+
+Compile:
+
+```bash
+mvn compile
+```
+
+Run tests:
+
+```bash
+mvn test
+```
+
+Package:
+
+```bash
+mvn clean package
+```
+
+Skip tests:
 
 ```bash
 mvn clean package -DskipTests
-java -jar target/demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
-**Checklist before going live | បញ្ជីត្រួតពិនិត្យមុនដាក់ដំណើរការជាក់ស្តែង:**
+Run JAR:
 
-- [ ] Use environment variables for secrets (never hardcode passwords) | ប្រើ environment variable សម្រាប់ secret កុំសរសេរ password ដោយផ្ទាល់
-- [ ] Set `ddl-auto: validate` (not `update`) in production | កំណត់ `ddl-auto: validate` (មិនមែន `update`) នៅ production
-- [ ] Enable HTTPS | បើក HTTPS
-- [ ] Configure proper CORS rules | កំណត់ CORS ឱ្យត្រឹមត្រូវ
-- [ ] Set up centralized logging & monitoring | រៀបចំ log និង monitoring កណ្តាល
+```bash
+java -jar target/springboot-api-0.0.1-SNAPSHOT.jar
+```
 
----
+Clean:
 
-## 23. Best Practices | ការអនុវត្តល្អបំផុត
-
-| Practice | English | ខ្មែរ |
-|---|---|---|
-| Layered architecture | Keep Controller → Service → Repository separated | បំបែក Controller → Service → Repository ឱ្យច្បាស់ |
-| Use DTOs | Never expose entities directly | កុំបញ្ចេញ entity ដោយផ្ទាល់ |
-| Constructor injection | Easier to test, immutable dependencies | ងាយសាកល្បង dependency មិនប្រែប្រួល |
-| Validate input | Always validate `@RequestBody` with `@Valid` | ត្រួតពិនិត្យទិន្នន័យបញ្ចូលជានិច្ច |
-| Handle exceptions globally | Use `@RestControllerAdvice` | ប្រើ `@RestControllerAdvice` |
-| Write tests | Unit + integration tests for critical logic | សរសេរតេស្តសម្រាប់តក្កវិជ្ជាសំខាន់ៗ |
-| Externalize config | Use `application.yml` + env vars, not hardcoded values | ប្រើ config ខាងក្រៅ កុំសរសេរតម្លៃដោយផ្ទាល់ក្នុងកូដ |
-| Version your API | e.g. `/api/v1/products` | ដាក់លេខជំនាន់ API ដូចជា `/api/v1/products` |
+```bash
+mvn clean
+```
 
 ---
 
-## 24. Resources | ធនធានបន្ថែម
+# 🌳 Git Workflow
 
-- 📘 Official docs: https://spring.io/projects/spring-boot
-- 📘 Spring Data JPA: https://spring.io/projects/spring-data-jpa
-- 📘 Spring Security: https://spring.io/projects/spring-security
-- 📘 Baeldung tutorials: https://www.baeldung.com/spring-boot
+Initialize:
+
+```bash
+git init
+```
+
+Add:
+
+```bash
+git add .
+```
+
+Commit:
+
+```bash
+git commit -m "Initial Spring Boot project"
+```
+
+Branch:
+
+```bash
+git branch -M main
+```
+
+Remote:
+
+```bash
+git remote add origin YOUR_GITHUB_REPOSITORY
+```
+
+Push:
+
+```bash
+git push -u origin main
+```
 
 ---
 
-### 🙏 Made for the Khmer developer community | បង្កើតឡើងសម្រាប់សហគមន៍អ្នកអភិវឌ្ឍន៍ខ្មែរ
+# 🔐 `.gitignore`
 
-If this guide helped you, consider ⭐ starring the repo!
-ប្រសិនបើមគ្គុទ្ទេសក៍នេះមានប្រយោជន៍ សូមចុច ⭐ ជាការគាំទ្រ!
+Use:
+
+```gitignore
+# Maven
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+
+# Secrets
+application-local.properties
+application-secret.properties
+```
+
+Never commit:
+
+```text
+passwords
+API keys
+JWT secrets
+private keys
+cloud credentials
+database credentials
+```
+
+---
+
+# 🎯 Spring Boot Cheat Sheet
+
+## Controller
+
+```java
+@RestController
+@RequestMapping("/api")
+```
+
+## GET
+
+```java
+@GetMapping
+```
+
+## POST
+
+```java
+@PostMapping
+```
+
+## PUT
+
+```java
+@PutMapping
+```
+
+## DELETE
+
+```java
+@DeleteMapping
+```
+
+## Request Body
+
+```java
+@RequestBody
+```
+
+## URL Variable
+
+```java
+@PathVariable
+```
+
+## Query Parameter
+
+```java
+@RequestParam
+```
+
+## Service
+
+```java
+@Service
+```
+
+## Repository
+
+```java
+@Repository
+```
+
+## Entity
+
+```java
+@Entity
+```
+
+## Dependency Injection
+
+```java
+@Autowired
+```
+
+or preferably constructor injection:
+
+```java
+public UserController(
+        UserService service
+) {
+    this.service = service;
+}
+```
+
+## Validation
+
+```java
+@Valid
+@NotBlank
+@NotNull
+@Email
+@Size
+@Min
+@Max
+```
+
+## Transactions
+
+```java
+@Transactional
+```
+
+## Security
+
+```java
+@EnableWebSecurity
+```
+
+## Method Security
+
+```java
+@EnableMethodSecurity
+```
+
+---
+
+# 🧭 Spring Boot Architecture Summary
+
+```text
+                 ┌──────────────┐
+                 │    Client    │
+                 └──────┬───────┘
+                        │
+                        ▼
+                 ┌──────────────┐
+                 │   Security   │
+                 └──────┬───────┘
+                        │
+                        ▼
+                 ┌──────────────┐
+                 │  Controller  │
+                 └──────┬───────┘
+                        │
+                        ▼
+                 ┌──────────────┐
+                 │   Service    │
+                 └──────┬───────┘
+                        │
+                        ▼
+                 ┌──────────────┐
+                 │  Repository  │
+                 └──────┬───────┘
+                        │
+                        ▼
+                 ┌──────────────┐
+                 │   Database   │
+                 └──────────────┘
+```
+
+---
+
+# 🇰🇭 សង្ខេបជាភាសាខ្មែរ
+
+Spring Boot គឺជា Java Framework សម្រាប់បង្កើត Backend និង REST API។
+
+លំដាប់ដែលគួររៀន៖
+
+```text
+Java
+ ↓
+Spring
+ ↓
+Spring Boot
+ ↓
+REST API
+ ↓
+Controller
+ ↓
+Service
+ ↓
+Repository
+ ↓
+JPA / Hibernate
+ ↓
+MySQL / PostgreSQL
+ ↓
+Validation
+ ↓
+Exception Handling
+ ↓
+Spring Security
+ ↓
+JWT
+ ↓
+Testing
+ ↓
+Docker
+ ↓
+Redis
+ ↓
+Kafka
+ ↓
+Microservices
+ ↓
+Production
+```
+
+ចំណុចសំខាន់បំផុតគឺយល់ពី៖
+
+```text
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
+Database
+```
+
+បន្ទាប់មករៀន៖
+
+```text
+DTO
+Validation
+Exception
+Security
+JWT
+Testing
+Docker
+```
+
+បន្ទាប់ពីនោះទើបបន្តទៅ៖
+
+```text
+Redis
+Kafka
+Microservices
+Kubernetes
+Cloud
+System Design
+```
+
+---
+
+# ⭐ Final Goal
+
+After completing this guide, you should be able to build:
+
+```text
+Frontend
+   │
+   │ REST / JSON
+   ▼
+Spring Boot API
+   │
+   ├── Authentication
+   ├── Authorization
+   ├── Validation
+   ├── Exception Handling
+   ├── Logging
+   ├── Testing
+   ├── Caching
+   ├── Async
+   └── Monitoring
+   │
+   ▼
+Database
+   │
+   ├── MySQL
+   ├── PostgreSQL
+   └── Redis
+```
+
+And eventually:
+
+```text
+                    ┌──────────────┐
+                    │ API Gateway  │
+                    └──────┬───────┘
+                           │
+          ┌────────────────┼────────────────┐
+          │                │                │
+          ▼                ▼                ▼
+    User Service     Order Service    Payment Service
+          │                │                │
+          ▼                ▼                ▼
+       MySQL            MySQL            MySQL
+          │                │                │
+          └────────────────┼────────────────┘
+                           │
+                           ▼
+                         Kafka
+                           │
+            ┌──────────────┼──────────────┐
+            ▼              ▼              ▼
+       Notification     Analytics       Email
+```
+
+---
+
+# 📖 Official Documentation
+
+* Spring Boot Documentation: https://docs.spring.io/spring-boot/
+* Spring Boot Reference: https://docs.spring.io/spring-boot/reference/
+* Spring Security: https://docs.spring.io/spring-security/reference/
+* Spring Data JPA: https://spring.io/projects/spring-data-jpa
+* Spring Initializr: https://start.spring.io/
+
+---
+
+# 📌 Important Version Note
+
+This README uses **Spring Boot 4.1.1**, which is currently listed by Spring as the latest stable Spring Boot release. Spring Boot 4.2.0-M1 is a preview release and should not be treated as the stable baseline.
+
+For new projects, prefer the current stable release and check the official Spring Boot documentation when upgrading because starter names, supported dependency versions, and APIs can change between major generations.
+
+---
+
+# ❤️ Contributing
+
+Pull requests are welcome.
+
+If you find an error:
+
+1. Fork the repository.
+2. Create a branch.
+3. Fix the documentation/code.
+4. Commit your changes.
+5. Open a pull request.
+
+---
+
+# 📜 License
+
+This documentation is available under the MIT License.
+
+---
+
+## 🚀 Keep Learning
+
+```text
+Learn Java
+    ↓
+Learn Spring Boot
+    ↓
+Build REST APIs
+    ↓
+Connect Database
+    ↓
+Add Security
+    ↓
+Write Tests
+    ↓
+Dockerize
+    ↓
+Deploy
+    ↓
+Learn Microservices
+    ↓
+Learn System Design
+```
+
+**Happy Coding! ☕🚀**
